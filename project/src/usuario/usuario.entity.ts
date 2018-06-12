@@ -1,22 +1,25 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {FotoEntity} from "../foto/foto.entity";
 
-@Entity('web_gr2_ayala')
+@Entity('web_gr2_eguezv')
 export class UsuarioEntity {
 
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
 
-    @Column({ length: 500 })
+    @Column({length: 500})
     nombre: string;
 
-    @Column({ length: 500 })
+    @Column({length: 500})
     apellido: string;
 
     @Column('int')
     edad: number;
 
-    @OneToMany(type => FotoEntity, foto => foto.usuario)
+    @OneToMany(
+        type => FotoEntity,
+        foto => foto.usuario)
+
     fotos: FotoEntity[];
 
 }

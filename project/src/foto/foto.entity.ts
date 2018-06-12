@@ -1,18 +1,19 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+
 import {UsuarioEntity} from "../usuario/usuario.entity";
 
-@Entity('web_gr2_ayala_fotos')
+@Entity('web_gr2_eguezv_foto')
 export class FotoEntity {
-
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
 
     @Column('text')
     url: string;
 
     @ManyToOne(
-        type => UsuarioEntity, usuario => usuario.fotos)
+        type => UsuarioEntity,
+        usuario => usuario.fotos)
 
-    usuario: FotoEntity[];
+    usuario: UsuarioEntity;
 
 }
