@@ -1,7 +1,12 @@
 import {BadRequestException, Body, Controller, Post} from "@nestjs/common";
+import {JwtService} from "../servicios/jwt.service";
 
 @Controller('Auth')
 export class AuthController {
+
+     constructor(private _jwtService: JwtService) {}
+
+
     @Post('emitir')
     emitirToken(
         @Body('usuario') usuario,
@@ -9,8 +14,11 @@ export class AuthController {
     ) {
         const enviaParametros = usuario && password;
         if (enviaParametros) {
-            if(usuario === 'adrianeguez' && password === '1234') {
-
+            const credencialesValidas = usuario === 'adrianeguez' && password === '1234';
+            if(credencialesValidas) {
+                return {
+                    jwt: this._jwtService.emitirToken({usuario: usuario})
+                }
             } else {
                 throw new BadRequestException({
                     mensaje:'Credenciales invalidas'
