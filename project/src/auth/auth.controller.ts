@@ -18,7 +18,7 @@ export class AuthController {
             if(credencialesValidas) {
                 return {
                     jwt: this._jwtService.emitirToken({usuario: usuario})
-                }
+                };
             } else {
                 throw new BadRequestException({
                     mensaje:'Credenciales invalidas'
@@ -32,13 +32,41 @@ export class AuthController {
     }
 
     @Post('verificarSync')
-    emitirToken() {
-
+    verificarTokenSync(@Body('jwt') jwt) {
+         const enviaParametros = jwt;
+         if (enviaParametros) {
+             const tokenValido = this._jwtService.verificarTokenSync(jwt);
+             if (tokenValido) {
+                 return {mensaje: 'Ok'}
+             } else {
+                 throw new BadRequestException({
+                     mensaje: 'Token invalido'
+                 })
+             }
+         } else {
+             throw new BadRequestException({
+                 mensaje: 'No envia parametros'
+             })
+         }
     }
 
     @Post('verificarAsync')
-    emitirToken() {
-
+    verificarTokenAsync(@Body('jwt') jwt) {
+        const enviaParametros = jwt;
+        if (enviaParametros) {
+            this._jwtService.verificarTokenAsync(jwt,(error, datos) => {
+                if (error) {
+                    throw new BadRequestException({
+                        mensaje: 'Token Invalido',
+                        error: error
+                    })
+                }
+            })
+        } else {
+            throw new BadRequestException({
+                mensaje: 'No envia parametros'
+            })
+        }
     }
 
 }
